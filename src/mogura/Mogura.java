@@ -138,6 +138,24 @@ class MOGURATatakiCanvas extends JPanel {
     private Timer repaintTime = new Timer( 10, new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			pastTime = System.currentTimeMillis() - startTime;
+
+			if (pastTime >= TIMEUP) {
+                timer.stop();
+                repaintTime.stop();
+                currentState = ENDING;
+                if (score > bestScore) {
+                    bestScore = score;
+                    overBest = true;
+                }
+
+            	JLabel label = new JLabel("おつかれさまでした！！");
+            	JOptionPane.showMessageDialog(MOGURATatakiCanvas.this, label, "OK", JOptionPane.INFORMATION_MESSAGE);
+
+            }
+
+
+
 			MOGURATatakiCanvas.this.repaint();
 		}
     });
@@ -146,8 +164,9 @@ class MOGURATatakiCanvas extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             callCounter++;
-            if (hitObject) hitObject = false;
-            pastTime = System.currentTimeMillis() - startTime;
+
+
+            /*
             if (pastTime >= TIMEUP) {
                 timer.stop();
                 repaintTime.stop();
@@ -160,19 +179,16 @@ class MOGURATatakiCanvas extends JPanel {
             	JLabel label = new JLabel("おつかれさまでした！！");
             	JOptionPane.showMessageDialog(MOGURATatakiCanvas.this, label, "OK", JOptionPane.INFORMATION_MESSAGE);
 
-            } else if (pastTime <= TIMEUP * 0.2) {
+            } else*/ if (pastTime <= TIMEUP * 0.2) {
                 if (callCounter % SPEED_LOW != 0) {
-                	MOGURATatakiCanvas.this.repaint();
                 	return;
                 }
             } else if (pastTime <= TIMEUP * 0.85) {
                 if (callCounter % SPEED_MIDDLE != 0) {
-                	MOGURATatakiCanvas.this.repaint();
                 	return;
                 }
             }else {
             	 if (callCounter % SPEED_HIGH != 0) {
-            		 MOGURATatakiCanvas.this.repaint();
             		 return;
             	 }
             }
@@ -181,6 +197,7 @@ class MOGURATatakiCanvas extends JPanel {
             while ((loc = selectLocation()) == selectedLocation);
 
             selectedLocation = loc;
+            if (hitObject) hitObject = false;
 
             MOGURATatakiCanvas.this.repaint();
         }
@@ -228,7 +245,6 @@ class MOGURATatakiCanvas extends JPanel {
             selectedObject   = 0;
             callCounter      = 0;
             hitObject        = false;
-            startTime        = System.currentTimeMillis();
             currentState     = PLAYING;
 
             String s = JOptionPane.showInputDialog( "名前を入力してスタート");
@@ -238,8 +254,10 @@ class MOGURATatakiCanvas extends JPanel {
             	}
             	name = s;
             }
+
+            startTime        = System.currentTimeMillis();
              timer.start();
-             repaintTime.start();
+            repaintTime.start();
             MOGURATatakiCanvas.this.repaint();
         }
     }
