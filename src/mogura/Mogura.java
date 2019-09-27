@@ -16,6 +16,7 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -113,6 +114,7 @@ class MOGURATatakiCanvas extends JPanel {
         new Ending()
     };
 
+    private String name = "ななし";
     private int     currentState     = START_WAITING;
     private int     bestScore        = 0;
     private int     score            = 0;
@@ -167,6 +169,14 @@ class MOGURATatakiCanvas extends JPanel {
                 gameStates[currentState].mouseClicked(e);
             }
         });
+
+        String s = JOptionPane.showInputDialog(this, "名前を入力してください");
+        if( s != null ) {
+        	if( s.length() > 10 ) {
+        		s = s.substring(0, 10);
+        	}
+        	this.name = s;
+        }
     }
 
     public void paint(Graphics g) {
@@ -238,7 +248,7 @@ class MOGURATatakiCanvas extends JPanel {
         public void paint(Graphics g) {
             g.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
             Image img = images.get(IMG_ENDING);
-            dao.insert(null, score);
+            dao.insert( name, score);
             dao.select();
             g.drawImage(img, 0, 0, MOGURATatakiCanvas.this);
             g.drawString("現在の最高得点: " + dao.getHiscore(), 200, 200);
