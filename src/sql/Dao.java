@@ -11,11 +11,17 @@ public class Dao {
 
 	private ConnectionProvider connectionProvider = new ConnectionProvider();
 	private int hiScore = 0;
+	private String hiName = null;
 
 
 	//hiScoreのゲッター
 	public int getHiscore(){
 		return hiScore;
+	}
+
+	//ハイスコア達成した人の名前
+	public String getHiName() {
+		return hiName;
 	}
 
 	//SELECT文を実行してハイスコアを
@@ -25,7 +31,8 @@ public class Dao {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT  ");
 		sql.append("score, ");
-		sql.append("date  ");
+		sql.append("date,  ");
+		sql.append("name  ");
 		sql.append("FROM  ");
 		sql.append("record  ");
 		sql.append("ORDER BY  ");
@@ -44,6 +51,8 @@ public class Dao {
 			while(rs.next()){
 				hiScore = rs.getInt("Score");
 //				System.out.println(hiScore);
+
+				hiName = rs.getString("name");
 //
 //				String date = rs.getString("date");
 //				System.out.println(date);

@@ -29,6 +29,7 @@ public class Mogura extends JFrame {
         pack();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
@@ -254,8 +255,8 @@ class MOGURATatakiCanvas extends JPanel {
             dao.insert( name, score);
             dao.select();
             g.drawImage(img, 0, 0, MOGURATatakiCanvas.this);
-            g.drawString("現在の最高得点: " + dao.getHiscore(), 200, 200);
-            g.drawString("今回の得点: " + score, 200, 230);
+            g.drawString("現在の最高得点: " + dao.getHiscore() + "    " + dao.getHiName(), 200, 200);
+            g.drawString("今回の得点: " + score + "    " + name, 200, 230);
 //            if (overBest) g.drawString("ハイスコアです。おめでとう", 200, 260);
 
         }
