@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class ConnectionProvider {
 
-	private String url = "jdbc:mysql://192.168.0.112/hiscore";
+	private String url = "jdbc:mysql://192.168.0.112/hiscore?autoReconnect=true&useSSL=false";
 
 	private String user = "bgr";
 
@@ -23,7 +23,7 @@ public class ConnectionProvider {
 
 			conn = DriverManager.getConnection( url, user, pass);
 
-
+			conn.setAutoCommit(false);
 
 		}catch(NoSuchMethodException e) {
 			e.printStackTrace();
