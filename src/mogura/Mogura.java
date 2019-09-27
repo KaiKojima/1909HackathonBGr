@@ -58,10 +58,10 @@ class MOGURATatakiCanvas extends JPanel {
     static final int SPEED_HIGH   = 1;
 
     static final String IMG_NAMES[] = {       //画像
-        "C:\\Users\\alterbo_PC-23\\Desktop\\mogura1img\\gd_test.gif",        //640 x 480
-        "C:\\Users\\alterbo_PC-23\\Desktop\\mogura1img\\mogura2-removebg-preview.png",  //70 x 70
-        "C:\\Users\\alterbo_PC-23\\Desktop\\mogura1img\\棺桶-removebg-preview.png", //70 x 70
-        "C:\\Users\\alterbo_PC-23\\Desktop\\mogura1img\\棺桶-removebg-preview.png"        //640 x 480
+        ".\\infomation\\img\\gd_test.gif",        //640 x 480
+        ".\\infomation\\img\\mogura2-removebg-preview.png",  //70 x 70
+        ".\\infomation\\img\\棺桶-removebg-preview.png", //70 x 70
+        ".\\infomation\\img\\棺桶-removebg-preview.png"        //640 x 480
     };
 
     static final int TIMER_INTERVAL = 400;     //タイマー処理間隔 0.4秒
@@ -170,13 +170,7 @@ class MOGURATatakiCanvas extends JPanel {
             }
         });
 
-        String s = JOptionPane.showInputDialog(this, "名前を入力してください");
-        if( s != null ) {
-        	if( s.length() > 10 ) {
-        		s = s.substring(0, 10);
-        	}
-        	this.name = s;
-        }
+
     }
 
     public void paint(Graphics g) {
@@ -197,6 +191,7 @@ class MOGURATatakiCanvas extends JPanel {
 
         public void mouseClicked(MouseEvent e) {
             // タイトル画面をクリックしたらゲームスタート
+        	name = "ななし";
             score            = 0;
             overBest         = false;
             selectedLocation = 0;
@@ -205,6 +200,14 @@ class MOGURATatakiCanvas extends JPanel {
             hitObject        = false;
             startTime        = System.currentTimeMillis();
             currentState     = PLAYING;
+
+            String s = JOptionPane.showInputDialog( "名前を入力してスタート");
+            if( s != null && s.length() > 0 ) {
+            	if( s.length() > 10 ) {
+            		s = s.substring(0, 10);
+            	}
+            	name = s;
+            }
              timer.start();
             MOGURATatakiCanvas.this.repaint();
         }
