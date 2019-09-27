@@ -16,6 +16,7 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -54,9 +55,9 @@ class MOGURATatakiCanvas extends JPanel {
     static final int MOGURA_SELECTED = 0;
     static final int BOMB_SELECTED = 1;
 
-    static final int SPEED_LOW    = 3;
-    static final int SPEED_MIDDLE = 2;
-    static final int SPEED_HIGH   = 1;
+    static final int SPEED_LOW    = 4;
+    static final int SPEED_MIDDLE = 3;
+    static final int SPEED_HIGH   = 2;
 
     static final String IMG_NAMES[] = {       //画像
         ".\\infomation\\img\\gd_test.gif",        //640 x 480
@@ -142,10 +143,16 @@ class MOGURATatakiCanvas extends JPanel {
                     bestScore = score;
                     overBest = true;
                 }
+
+            	JLabel label = new JLabel("おつかれさまでした！！");
+            	JOptionPane.showMessageDialog(MOGURATatakiCanvas.this, label, "OK", JOptionPane.INFORMATION_MESSAGE);
+
             } else if (pastTime <= TIMEUP * 0.2) {
                 if (callCounter % SPEED_LOW != 0) return;
             } else if (pastTime <= TIMEUP * 0.85) {
                 if (callCounter % SPEED_MIDDLE != 0) return;
+            }else {
+            	 if (callCounter % SPEED_HIGH != 0) return;
             }
 
             int loc = 0;
@@ -261,6 +268,7 @@ class MOGURATatakiCanvas extends JPanel {
         }
 
         public void mouseClicked(MouseEvent e) {
+
             currentState = START_WAITING;
             MOGURATatakiCanvas.this.repaint();
         }
