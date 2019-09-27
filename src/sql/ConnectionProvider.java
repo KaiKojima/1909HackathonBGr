@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class ConnectionProvider {
 
-	private String url = "jdbc:mysql://192.168.0.112:3306/hiscore";
+	private String url = "jdbc:mysql://192.168.0.112/hiscore";
 
 	private String user = "bgr";
 
@@ -21,7 +21,7 @@ public class ConnectionProvider {
 
 			Class.forName( "com.mysql.jdbc.Driver" ).getDeclaredConstructor().newInstance();
 
-			conn = DriverManager.getConnection( url, user, pass );
+			conn = DriverManager.getConnection( url, user, pass);
 
 
 
