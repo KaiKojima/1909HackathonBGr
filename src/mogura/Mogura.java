@@ -220,10 +220,8 @@ class MOGURATatakiCanvas extends JPanel {
 
             g.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
             int index = IMG_MOGURA_NORMAL;
-            hitObject = bool;
             if (selectedObject == MOGURA_SELECTED && hitObject) {
                 index = IMG_MOGURA_DAMAGED;
-                bool = false;
             }
             Image img = images.get(index);
             int x = LOCATION[selectedLocation].x;
@@ -235,12 +233,13 @@ class MOGURATatakiCanvas extends JPanel {
 
         public void mouseClicked(MouseEvent e) {
             // 当たり判定
+//        	System.out.println(e);
             int x = LOCATION[selectedLocation].x;
             int y = LOCATION[selectedLocation].y;
             Rectangle rect = new Rectangle(x, y, OBJECT_WIDTH, OBJECT_HEIGHT);
-            if (rect.contains(e.getPoint()) && hit == IMG_MOGURA_NORMAL) {
+            if (rect.contains(e.getPoint()) && hitObject == false/*&& hit == IMG_MOGURA_NORMAL*/) {
             	score += 100;
-            	bool =true;
+            	hitObject =true;
             }
             MOGURATatakiCanvas.this.repaint();
 
