@@ -1,6 +1,8 @@
 package mogura;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
@@ -51,6 +53,7 @@ class MOGURATatakiCanvas extends JPanel {
     static final int IMG_MOGURA_NORMAL  = 1;
     static final int IMG_MOGURA_DAMAGED = 2;
     static final int IMG_ENDING       = 3;
+    static final int IMG_KUSA = 4;
 
     static final int MOGURA_SELECTED = 0;
     static final int BOMB_SELECTED = 1;
@@ -61,9 +64,10 @@ class MOGURATatakiCanvas extends JPanel {
 
     static final String IMG_NAMES[] = {       //画像
         ".\\infomation\\img\\gd_test.gif",        //640 x 480
-        ".\\infomation\\img\\mogura2-removebg-preview.png",  //70 x 70
+        ".\\infomation\\img\\mogura_icon.png",  //70 x 70
         ".\\infomation\\img\\棺桶-removebg-preview.png", //70 x 70
-        ".\\infomation\\img\\棺桶-removebg-preview.png"        //640 x 480
+        ".\\infomation\\img\\sult2.png"        //640 x 480
+        , ".\\infomation\\img\\kusa.jpg"
     };
 
     static final int TIMER_INTERVAL = 400;     //タイマー処理間隔 0.4秒
@@ -226,15 +230,31 @@ class MOGURATatakiCanvas extends JPanel {
         public void paint(Graphics g) {
 
             g.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+            Image img = images.get(IMG_KUSA);
+            g.drawImage(img, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, MOGURATatakiCanvas.this);
+
             int index = IMG_MOGURA_NORMAL;
             if (selectedObject == MOGURA_SELECTED && hitObject) {
                 index = IMG_MOGURA_DAMAGED;
             }
-            Image img = images.get(index);
+            img = images.get(index);
             int x = LOCATION[selectedLocation].x;
             int y = LOCATION[selectedLocation].y;
             g.drawImage(img, x, y, MOGURATatakiCanvas.this);
-            g.drawString("得点: " + score, 10, 10);
+
+
+            Font font = new Font("ゴシック明朝", Font.BOLD, 16);
+            g.setFont(font);
+            g.setColor(Color.RED);
+            for(int ty=-2; ty<2; ty++) {
+            	for(int tx=-2; tx<2; tx++) {
+            		g.drawString("得点: " + score, 10+tx, 20+ty);
+            	}
+            }
+
+            g.setColor(Color.WHITE);
+            g.drawString("得点: " + score, 10, 20);
             hit = index;
         }
 
@@ -261,8 +281,24 @@ class MOGURATatakiCanvas extends JPanel {
             dao.insert( name, score);
             dao.select();
             g.drawImage(img, 0, 0, MOGURATatakiCanvas.this);
-            g.drawString("現在の最高得点: " + dao.getHiscore() + "    " + dao.getHiName(), 200, 200);
-            g.drawString("今回の得点: " + score + "    " + name, 200, 230);
+
+            //スコア表示
+            Font font = new Font("ゴシック明朝", Font.BOLD, 20);
+            g.setFont(font);
+
+            String msg1 = "現在の最高得点: " + dao.getHiscore() + "    " + dao.getHiName();
+            String msg2 = "今回の得点: " + score + "    " + name;
+
+            g.setColor(Color.WHITE);
+            for(int y=-2; y<2; y++) {
+            	for(int x=-2; x<2; x++) {
+            		 g.drawString(msg1, 200+x, 200+y);
+                     g.drawString(msg2, 200+x, 230+y);
+            	}
+            }
+            g.setColor(Color.BLACK);
+            g.drawString(msg1, 200, 200);
+            g.drawString(msg2, 200, 230);
 //            if (overBest) g.drawString("ハイスコアです。おめでとう", 200, 260);
 
         }
