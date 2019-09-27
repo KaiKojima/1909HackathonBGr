@@ -19,6 +19,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import sql.Dao;
+
 public class Mogura extends JFrame {
     public Mogura() {
         super("モグラたたき");
@@ -55,7 +57,7 @@ class MOGURATatakiCanvas extends JPanel {
     static final int SPEED_HIGH   = 1;
 
     static final String IMG_NAMES[] = {       //画像
-        "C:\\Users\\alterbo_PC-23\\Desktop\\mogura1img\\Inkedmogura2-title.png",        //640 x 480
+        "C:\\Users\\alterbo_PC-23\\Desktop\\mogura1img\\gd_test.gif",        //640 x 480
         "C:\\Users\\alterbo_PC-23\\Desktop\\mogura1img\\mogura2-removebg-preview.png",  //70 x 70
         "C:\\Users\\alterbo_PC-23\\Desktop\\mogura1img\\棺桶-removebg-preview.png", //70 x 70
         "C:\\Users\\alterbo_PC-23\\Desktop\\mogura1img\\棺桶-removebg-preview.png"        //640 x 480
@@ -232,13 +234,17 @@ class MOGURATatakiCanvas extends JPanel {
     }
 
     class Ending implements GameState {
+    	Dao dao  = new Dao();
         public void paint(Graphics g) {
             g.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
             Image img = images.get(IMG_ENDING);
+            dao.insert(null, score);
+            dao.select();
             g.drawImage(img, 0, 0, MOGURATatakiCanvas.this);
-            g.drawString("現在の最高得点: " + bestScore, 200, 200);
+            g.drawString("現在の最高得点: " + dao.getHiscore(), 200, 200);
             g.drawString("今回の得点: " + score, 200, 230);
-            if (overBest) g.drawString("ハイスコアです。おめでとう", 200, 260);
+//            if (overBest) g.drawString("ハイスコアです。おめでとう", 200, 260);
+
         }
 
         public void mouseClicked(MouseEvent e) {
