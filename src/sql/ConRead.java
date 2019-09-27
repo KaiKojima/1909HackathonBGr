@@ -7,7 +7,8 @@ public class ConRead {
 
 		Dao dao = new Dao();
 
-		dao.insert( "hoge", 99);
+		dao.insert( "hogehoge", 9000);
+		dao.select();
 
 	}
 

@@ -4,18 +4,60 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Dao {
 
 
-	ConnectionProvider connectionProvider = new ConnectionProvider();
+	private ConnectionProvider connectionProvider = new ConnectionProvider();
+	private int hiScore = 0;
 
-	public String printHiscore(){
 
+	//hiScoreのゲッター
+	public int getHiscore(){
+		return hiScore;
+	}
+
+	//SELECT文を実行してハイスコアを
+	public void select(){
 		Connection conn = connectionProvider.getConn();
 
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT  ");
+		sql.append("score, ");
+		sql.append("date  ");
+		sql.append("FROM  ");
+		sql.append("record  ");
+		sql.append("ORDER BY  ");
+		sql.append("score DESC,  ");
+		sql.append("date DESC ");
+		sql.append("LIMIT 1  ");
+		sql.append(";");
 
-		return null;
+		Statement st = null;
+		ResultSet rs = null;
+
+		try{
+			st = conn.createStatement();
+			rs = st.executeQuery(sql.toString());
+
+			while(rs.next()){
+				hiScore = rs.getInt("Score");
+//				System.out.println(hiScore);
+//
+//				String date = rs.getString("date");
+//				System.out.println(date);
+			}
+
+
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally{
+			this.close(rs,st,conn);
+		}
+
+
+
 	}
 
 
@@ -54,7 +96,7 @@ public class Dao {
 		}
 	}
 
-	private void close( ResultSet rs, PreparedStatement st, Connection conn) {
+	private void close( ResultSet rs, Statement st, Connection conn) {
 		if( rs != null ) {
 			try {
 				rs.close();
