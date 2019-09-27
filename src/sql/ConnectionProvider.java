@@ -9,7 +9,7 @@ public class ConnectionProvider {
 
 	private String url = "jdbc:mysql://192.168.0.112:3306/hiscore";
 
-	private String user = "root";
+	private String user = "bgr";
 
 	private String pass = "alterbo159753";
 
